@@ -5,22 +5,18 @@ namespace App\Http\Controllers\Modules\Trips;
 use App\Traits\HandlesTransaction;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Employee;
-use App\Services\DropdownClass;
-use App\Services\Modules\Trips\Loan\SaveClass;
-use App\Services\Modules\Trips\Loan\ViewClass;
-use App\Http\Requests\Modules\Trips\LoanRequest;
+use App\Services\Modules\Trips\Buyer\SaveClass;
+use App\Services\Modules\Trips\Buyer\ViewClass;
+use App\Http\Requests\Modules\Trips\BuyerRequest;
 
-class LoanController extends Controller
+class BuyerController extends Controller
 {
     use HandlesTransaction;
 
     protected ViewClass $view;
     protected SaveClass $save;
-    protected DropdownClass $dropdown;
 
-    public function __construct(DropdownClass $dropdown, SaveClass $save, ViewClass $view){
-        $this->dropdown = $dropdown;
+    public function __construct(SaveClass $save, ViewClass $view){
         $this->view = $view;
         $this->save = $save;
     }
@@ -31,21 +27,12 @@ class LoanController extends Controller
                 return $this->view->list($request);
             break;
             default:
-            return inertia('Modules/Trips/CashAdvance/Index',[
-                'categories' => $this->dropdown->dropdowns('Loan', 'Category'),
-                'breakdown' => $this->view->breakdown(),
-                'names' => [
-                    'Employee' => Employee::where('is_active', 1)->orderBy('lastname')->get(),
-                ],
-            ]);
+            return inertia('Modules/Trips/Buyer/Index');
         }
     }
 
-    public function store(LoanRequest $request){
+    public function store(BuyerRequest $request){
         $result = $this->handleTransaction(function () use ($request) {
-            if ($request->option === 'pay') {
-                return $this->save->pay($request);
-            }
             return $request->editable ? $this->save->update($request) : $this->save->store($request);
         });
 
@@ -57,15 +44,9 @@ class LoanController extends Controller
         ]);
     }
 
-    public function update(LoanRequest $request){
+    public function update(BuyerRequest $request){
         $result = $this->handleTransaction(function () use ($request) {
-            switch($request->option){
-                case 'pay':
-                    return $this->save->pay($request);
-                break;
-                default:
-                    return $this->save->update($request);
-            }
+            return $this->save->update($request);
         });
 
         return back()->with([

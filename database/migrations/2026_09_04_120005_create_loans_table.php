@@ -17,8 +17,8 @@ return new class extends Migration
             $table->decimal('amount', 12, 2);
             $table->unsignedTinyInteger('category_id');
             $table->foreign('category_id')->references('id')->on('list_dropdowns');
-            $table->unsignedInteger('name_id')->nullable();
-            $table->foreign('name_id')->references('id')->on('list_names');
+            $table->unsignedInteger('employee_id')->nullable();
+            $table->foreign('employee_id')->references('id')->on('employees');
             $table->boolean('is_paid')->default(0);
             $table->boolean('is_cancelled')->default(0);
             $table->timestamps();

@@ -13,12 +13,12 @@ class SaveClass
             'amount' => $request->amount,
             'note' => $request->note,
             'category_id' => $request->category_id,
-            'name_id' => $request->name_id,
+            'employee_id' => $request->employee_id,
             'trip_id' => $request->trip_id,
         ]);
 
         return [
-            'data' => new DefaultResource($data->load('name', 'category', 'trip')),
+            'data' => new DefaultResource($data->load('employee', 'category', 'trip')),
             'message' => 'Expense creation was successful!',
             'info' => "You've successfully recorded a new expense.",
         ];
@@ -27,10 +27,10 @@ class SaveClass
     public function update($request)
     {
         $data = Expense::findOrFail($request->id);
-        $data->update($request->only('amount', 'note', 'category_id', 'name_id', 'trip_id'));
+        $data->update($request->only('amount', 'note', 'category_id', 'employee_id', 'trip_id'));
 
         return [
-            'data' => new DefaultResource($data->load('name', 'category', 'trip')),
+            'data' => new DefaultResource($data->load('employee', 'category', 'trip')),
             'message' => 'Expense update was successful!',
             'info' => "You've successfully updated the selected expense.",
         ];

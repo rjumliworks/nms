@@ -23,7 +23,7 @@ class DatabaseSeeder extends Seeder
             'email' => 'administrator@example.com',
             'password' => bcrypt('123456789'),
             'is_active' => 1,
-            'must_change' => 1,
+            'must_change' => 0,
         ]);
 
         $user->profile()->create([

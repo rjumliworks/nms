@@ -59,7 +59,7 @@
                             </thead>
                             <tbody class="table-white fs-12">
                                 <tr v-for="(list,index) in lists" v-bind:key="index">
-                                    <td>{{ list.name ? list.name.name : '-' }}</td>
+                                    <td>{{ list.employee ? list.employee.name : '-' }}</td>
                                     <td><span class="badge bg-info-subtle text-info">{{ list.category ? list.category.name : '-' }}</span></td>
                                     <td class="text-end">{{ list.amount }}</td>
                                     <td class="text-center">

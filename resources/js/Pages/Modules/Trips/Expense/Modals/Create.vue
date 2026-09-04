@@ -14,8 +14,8 @@
                     </select>
                 </BCol>
                 <BCol lg="12">
-                    <InputLabel for="payee" value="Payee" :message="form.errors.name_id"/>
-                    <NameSearch v-model="payee" type="Person" :options="names.Person || []" placeholder="Search payee"/>
+                    <InputLabel for="payee" value="Payee" :message="form.errors.employee_id"/>
+                    <NameSearch v-model="payee" type="Employee" :options="names.Employee || []" placeholder="Search payee"/>
                 </BCol>
                 <BCol lg="12">
                     <InputLabel for="amount" value="Amount" :message="form.errors.amount"/>
@@ -53,7 +53,7 @@ export default {
                 amount: null,
                 note: null,
                 category_id: null,
-                name_id: null,
+                employee_id: null,
                 trip_id: null,
                 editable: false
             }),
@@ -78,7 +78,7 @@ export default {
             this.form.category_id = newVal ? newVal.value : null;
         },
         payee(newVal){
-            this.form.name_id = newVal ? newVal.value : null;
+            this.form.employee_id = newVal ? newVal.value : null;
         }
     },
     mounted(){
@@ -105,9 +105,9 @@ export default {
                 this.category = { value: data.category.id, name: data.category.name };
                 this.form.category_id = data.category.id;
             }
-            if(data.name){
-                this.payee = { value: data.name.id, name: data.name.name };
-                this.form.name_id = data.name.id;
+            if(data.employee){
+                this.payee = { value: data.employee.id, name: data.employee.name };
+                this.form.employee_id = data.employee.id;
             }
             if(data.trip){
                 this.form.trip_id = data.trip.id;

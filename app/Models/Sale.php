@@ -24,7 +24,7 @@ class Sale extends Model
 
     public function buyer()
     {
-        return $this->belongsTo(ListName::class, 'buyer_id');
+        return $this->belongsTo(Buyer::class, 'buyer_id');
     }
 
     public function truck()

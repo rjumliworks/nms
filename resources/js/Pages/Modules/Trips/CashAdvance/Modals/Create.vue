@@ -7,8 +7,8 @@
                     <Multiselect :options="categoryOptions" label="name" v-model="category" object :searchable="true" placeholder="Select Category"/>
                 </BCol>
                 <BCol lg="12">
-                    <InputLabel for="recipient" value="Recipient" :message="form.errors.name_id"/>
-                    <NameSearch v-model="recipient" type="Person" :options="names.Person || []" placeholder="Search recipient"/>
+                    <InputLabel for="recipient" value="Recipient" :message="form.errors.employee_id"/>
+                    <NameSearch v-model="recipient" type="Employee" :options="names.Employee || []" placeholder="Search recipient"/>
                 </BCol>
                 <BCol lg="12">
                     <InputLabel for="amount" value="Amount" :message="form.errors.amount"/>
@@ -40,7 +40,7 @@ export default {
                 id: null,
                 amount: null,
                 category_id: null,
-                name_id: null,
+                employee_id: null,
                 editable: false
             }),
             category: null,
@@ -63,7 +63,7 @@ export default {
             this.form.category_id = newVal ? newVal.value : null;
         },
         recipient(newVal){
-            this.form.name_id = newVal ? newVal.value : null;
+            this.form.employee_id = newVal ? newVal.value : null;
         }
     },
     methods: {
@@ -79,9 +79,9 @@ export default {
                 this.category = { value: data.category.id, name: data.category.name };
                 this.form.category_id = data.category.id;
             }
-            if(data.name){
-                this.recipient = { value: data.name.id, name: data.name.name };
-                this.form.name_id = data.name.id;
+            if(data.employee){
+                this.recipient = { value: data.employee.id, name: data.employee.name };
+                this.form.employee_id = data.employee.id;
             }
             this.editable = true;
             this.form.editable = true;

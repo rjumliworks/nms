@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Modules\Trips;
 use App\Traits\HandlesTransaction;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\ListName;
+use App\Models\Employee;
 use App\Services\DropdownClass;
 use App\Services\Modules\Trips\Expense\SaveClass;
 use App\Services\Modules\Trips\Expense\ViewClass;
@@ -34,7 +34,7 @@ class ExpenseController extends Controller
             return inertia('Modules/Trips/Expense/Index',[
                 'categories' => $this->dropdown->dropdowns('Expense', 'Category'),
                 'names' => [
-                    'Person' => ListName::where('type', 'Person')->where('is_active', 1)->get(),
+                    'Employee' => Employee::where('is_active', 1)->orderBy('lastname')->get(),
                 ],
             ]);
         }

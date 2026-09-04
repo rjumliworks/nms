@@ -6,6 +6,7 @@ use App\Traits\HandlesTransaction;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\ListName;
+use App\Models\Buyer;
 use App\Services\Modules\Trips\Sale\SaveClass;
 use App\Services\Modules\Trips\Sale\ViewClass;
 use App\Http\Requests\Modules\Trips\SaleRequest;
@@ -30,7 +31,7 @@ class SaleController extends Controller
             default:
             return inertia('Modules/Trips/Sale/Index',[
                 'names' => [
-                    'Buyer' => ListName::where('type', 'Buyer')->where('is_active', 1)->get(),
+                    'Buyer' => Buyer::where('is_active', 1)->orderBy('lastname')->get(),
                     'Truck' => ListName::where('type', 'Truck')->where('is_active', 1)->get(),
                 ],
             ]);

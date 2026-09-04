@@ -10,6 +10,12 @@ class ViewClass
     public function list($request)
     {
         $data = Sale::with('trip', 'buyer', 'truck', 'lists.tub')
+        ->when($request->keyword, function ($query, $keyword) {
+            $query->whereHas('buyer', function ($sub) use ($keyword) {
+                $sub->where('firstname', 'like', "%{$keyword}%")
+                    ->orWhere('lastname', 'like', "%{$keyword}%");
+            });
+        })
         ->when($request->trip_id, function ($query, $tripId) {
             $query->where('trip_id', $tripId);
         })

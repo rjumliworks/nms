@@ -12,14 +12,14 @@ class Loan extends Model
     protected $fillable = [
         'amount',
         'category_id',
-        'name_id',
+        'employee_id',
         'is_paid',
         'is_cancelled',
     ];
 
-    public function name()
+    public function employee()
     {
-        return $this->belongsTo(ListName::class, 'name_id');
+        return $this->belongsTo(Employee::class, 'employee_id');
     }
 
     public function category()

@@ -16,7 +16,7 @@ return new class extends Migration
             $table->increments('id');
             $table->decimal('total', 12, 2)->default(0);
             $table->unsignedInteger('buyer_id');
-            $table->foreign('buyer_id')->references('id')->on('list_names');
+            $table->foreign('buyer_id')->references('id')->on('buyers');
             $table->unsignedInteger('truck_id')->nullable();
             $table->foreign('truck_id')->references('id')->on('list_names');
             $table->unsignedInteger('trip_id');

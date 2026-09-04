@@ -13,7 +13,7 @@ class Expense extends Model
         'amount',
         'note',
         'category_id',
-        'name_id',
+        'employee_id',
         'trip_id',
     ];
 
@@ -22,9 +22,9 @@ class Expense extends Model
         return $this->belongsTo(Trip::class, 'trip_id');
     }
 
-    public function name()
+    public function employee()
     {
-        return $this->belongsTo(ListName::class, 'name_id');
+        return $this->belongsTo(Employee::class, 'employee_id');
     }
 
     public function category()

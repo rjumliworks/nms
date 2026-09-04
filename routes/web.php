@@ -16,6 +16,8 @@ Route::middleware(['role:Administrator'])->group(function () {
     Route::resource('/users', App\Http\Controllers\Executive\UserController::class);
 
     Route::resource('/names', App\Http\Controllers\Modules\Trips\NameController::class)->only(['index','store','update']);
+    Route::resource('/buyers', App\Http\Controllers\Modules\Trips\BuyerController::class)->only(['index','store','update']);
+    Route::resource('/employees', App\Http\Controllers\Modules\Trips\EmployeeController::class)->only(['index','store','update']);
     Route::resource('/trips', App\Http\Controllers\Modules\Trips\TripController::class);
     Route::resource('/carriers', App\Http\Controllers\Modules\Trips\CarrierController::class)->only(['store']);
     Route::resource('/expenses', App\Http\Controllers\Modules\Trips\ExpenseController::class);

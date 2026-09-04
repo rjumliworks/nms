@@ -12,25 +12,7 @@
             <template v-if="$page.props.roles.includes('Administrator')">
                 <li class="menu-title">
                     <i class="ri-more-fill" aria-expanded="false"></i>
-                    <span data-key="t-menu">Executive Modules</span>
-                </li>
-                <li class="nav-item">
-                    <Link href="/users" class="nav-link menu-link"
-                    :class="{'active': $page.component.startsWith('Executive/Users') }">
-                    <i class="ri-team-fill"></i>
-                    <span class="fw-semibold fs-14" data-key="t-dashboards">User Management</span>
-                    </Link>
-                </li>
-                <li class="menu-title">
-                    <i class="ri-more-fill" aria-expanded="false"></i>
                     <span data-key="t-menu">Boat Operations</span>
-                </li>
-                <li class="nav-item">
-                    <Link href="/names" class="nav-link menu-link"
-                    :class="{'active': $page.component.startsWith('Modules/Trips/Name') }">
-                    <i class="ri-contacts-book-2-fill"></i>
-                    <span class="fw-semibold fs-14" data-key="t-dashboards">Names</span>
-                    </Link>
                 </li>
                 <li class="nav-item">
                     <Link href="/trips" class="nav-link menu-link"
@@ -58,6 +40,38 @@
                     :class="{'active': $page.component.startsWith('Modules/Trips/Sale') }">
                     <i class="ri-shopping-bag-fill"></i>
                     <span class="fw-semibold fs-14" data-key="t-dashboards">Sales</span>
+                    </Link>
+                </li>
+                 <li class="menu-title">
+                    <i class="ri-more-fill" aria-expanded="false"></i>
+                    <span data-key="t-menu">Executive Modules</span>
+                </li>
+                <li class="nav-item">
+                    <Link href="/names" class="nav-link menu-link"
+                    :class="{'active': $page.component.startsWith('Modules/Trips/Name') }">
+                    <i class="ri-contacts-book-2-fill"></i>
+                    <span class="fw-semibold fs-14" data-key="t-dashboards">Names</span>
+                    </Link>
+                </li>
+                <li class="nav-item">
+                    <Link href="/buyers" class="nav-link menu-link"
+                    :class="{'active': $page.component.startsWith('Modules/Trips/Buyer') }">
+                    <i class="ri-user-star-fill"></i>
+                    <span class="fw-semibold fs-14" data-key="t-dashboards">Buyers</span>
+                    </Link>
+                </li>
+                <li class="nav-item">
+                    <Link href="/employees" class="nav-link menu-link"
+                    :class="{'active': $page.component.startsWith('Modules/Trips/Employee') }">
+                    <i class="ri-team-fill"></i>
+                    <span class="fw-semibold fs-14" data-key="t-dashboards">Employees</span>
+                    </Link>
+                </li>
+                <li class="nav-item">
+                    <Link href="/users" class="nav-link menu-link"
+                    :class="{'active': $page.component.startsWith('Executive/Users') }">
+                    <i class="ri-team-fill"></i>
+                    <span class="fw-semibold fs-14" data-key="t-dashboards">User Management</span>
                     </Link>
                 </li>
             </template>

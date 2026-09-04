@@ -9,13 +9,14 @@ class ViewClass
 {
     public function list($request)
     {
-        $data = Loan::with('name', 'category')
+        $data = Loan::with('employee', 'category')
         ->when($request->category_id, function ($query, $categoryId) {
             $query->where('category_id', $categoryId);
         })
         ->when($request->keyword, function ($query, $keyword) {
-            $query->whereHas('name', function ($sub) use ($keyword) {
-                $sub->where('name', 'like', "%{$keyword}%");
+            $query->whereHas('employee', function ($sub) use ($keyword) {
+                $sub->where('firstname', 'like', "%{$keyword}%")
+                    ->orWhere('lastname', 'like', "%{$keyword}%");
             });
         })
         ->orderBy('created_at', 'desc')

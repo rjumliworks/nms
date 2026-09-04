@@ -24,14 +24,14 @@ class LoanRequest extends FormRequest
                 'id' => 'required|integer|exists:loans,id',
                 'amount' => 'sometimes|required|numeric|min:0',
                 'category_id' => 'sometimes|required|integer|exists:list_dropdowns,id',
-                'name_id' => 'nullable|integer|exists:list_names,id',
+                'employee_id' => 'nullable|integer|exists:employees,id',
             ];
         }
 
         return [
             'amount' => 'required|numeric|min:0',
             'category_id' => 'required|integer|exists:list_dropdowns,id',
-            'name_id' => 'nullable|integer|exists:list_names,id',
+            'employee_id' => 'nullable|integer|exists:employees,id',
         ];
     }
 }

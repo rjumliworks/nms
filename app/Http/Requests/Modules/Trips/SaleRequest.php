@@ -15,7 +15,7 @@ class SaleRequest extends FormRequest
     {
         return [
             'trip_id' => 'required|integer|exists:trips,id',
-            'buyer_id' => 'required|integer|exists:list_names,id',
+            'buyer_id' => 'required|integer|exists:buyers,id',
             'truck_id' => 'nullable|integer|exists:list_names,id',
             'lines' => 'required|array|min:1',
             'lines.*.tub_id' => 'required|integer|exists:tubs,id',

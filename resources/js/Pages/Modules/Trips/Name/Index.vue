@@ -15,7 +15,7 @@
                         </div>
                         <div class="flex-grow-1">
                             <h5 class="mb-0 fs-14"><span class="text-body">Names</span></h5>
-                            <p class="text-muted text-truncate-two-lines fs-12">Boats, carriers, trucks, buyers, persons, and fish used across trips</p>
+                            <p class="text-muted text-truncate-two-lines fs-12">Boats, carriers, trucks, and fish used across trips</p>
                         </div>
                     </div>
                 </div>
@@ -82,7 +82,7 @@ import Pagination from "@/Shared/Components/Pagination.vue";
 export default {
     components: { PageHeader, Pagination, Multiselect, Create },
     props: {
-        types: { type: Array, default: () => ['Boat', 'Carrier', 'Truck', 'Buyer', 'Person', 'Fish'] }
+        types: { type: Array, default: () => ['Boat', 'Carrier', 'Truck', 'Fish'] }
     },
     data(){
         return {
