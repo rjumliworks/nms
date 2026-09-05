@@ -16,6 +16,26 @@ class Employee extends Model
 
     protected $appends = ['name'];
 
+    public function setAttribute($key, $value)
+    {
+        if (in_array($key, ['firstname', 'middlename', 'lastname']) && !is_null($value)) {
+            $value = ucwords(strtolower($value));
+        }
+
+        return parent::setAttribute($key, $value);
+    }
+
+    public function getAttribute($key)
+    {
+        $value = parent::getAttribute($key);
+
+        if (in_array($key, ['firstname', 'middlename', 'lastname']) && !is_null($value)) {
+            return ucwords(strtolower($value));
+        }
+
+        return $value;
+    }
+
     public function loans()
     {
         return $this->hasMany(Loan::class);

@@ -19,7 +19,8 @@ export default {
     },
     watch: {
         value: function(val){
-            this.$emit('amount',val)
+            const numeric = typeof val === 'string' ? parseFloat(val.replace(/[^0-9.-]/g, '')) : val;
+            this.$emit('amount', isNaN(numeric) ? 0 : numeric);
         }
     },
     methods: {

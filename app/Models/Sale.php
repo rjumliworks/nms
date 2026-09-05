@@ -15,7 +15,19 @@ class Sale extends Model
         'truck_id',
         'trip_id',
         'is_sold',
+        'is_paid',
     ];
+
+    protected $appends = ['status'];
+
+    public function getStatusAttribute()
+    {
+        if (!$this->buyer_id) {
+            return 'Pending';
+        }
+
+        return $this->is_paid ? 'Paid' : 'Pending Payment';
+    }
 
     public function trip()
     {

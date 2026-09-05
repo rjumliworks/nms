@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder
     {
         $this->call(ListRolesTableSeeder::class);
         $this->call(TripCategoriesSeeder::class);
+        $this->call(FishSpeciesSeeder::class);
 
         $user = User::create([
             'username' => 'administrator',

@@ -36,4 +36,16 @@ class SaveClass
             'info' => "You've successfully recorded a new sale.",
         ];
     }
+
+    public function update($request)
+    {
+        $sale = Sale::findOrFail($request->id);
+        $sale->update($request->only('buyer_id', 'truck_id', 'is_paid'));
+
+        return [
+            'data' => new DefaultResource($sale->load('trip', 'buyer', 'truck', 'lists.tub')),
+            'message' => 'Sale updated successfully!',
+            'info' => "You've successfully updated the selected sale.",
+        ];
+    }
 }

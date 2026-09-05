@@ -13,6 +13,15 @@ class SaleRequest extends FormRequest
 
     public function rules(): array
     {
+        if ($this->isMethod('put') || $this->isMethod('patch')) {
+            return [
+                'id' => 'required|integer|exists:sales,id',
+                'buyer_id' => 'nullable|integer|exists:buyers,id',
+                'truck_id' => 'nullable|integer|exists:list_names,id',
+                'is_paid' => 'sometimes|boolean',
+            ];
+        }
+
         return [
             'trip_id' => 'required|integer|exists:trips,id',
             'buyer_id' => 'required|integer|exists:buyers,id',

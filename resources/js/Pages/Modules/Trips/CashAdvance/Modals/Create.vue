@@ -7,6 +7,13 @@
                     <Multiselect :options="categoryOptions" label="name" v-model="category" object :searchable="true" placeholder="Select Category"/>
                 </BCol>
                 <BCol lg="12">
+                    <InputLabel for="trip" value="Trip (optional)"/>
+                    <select id="trip" v-model="form.trip_id" class="form-select" @change="handleInput('trip_id')">
+                        <option :value="null">Not trip-specific</option>
+                        <option v-for="trip in trips" v-bind:key="trip.id" :value="trip.id">{{ trip.code }} - {{ trip.date }}</option>
+                    </select>
+                </BCol>
+                <BCol lg="12">
                     <InputLabel for="recipient" value="Recipient" :message="form.errors.employee_id"/>
                     <NameSearch v-model="recipient" type="Employee" :options="names.Employee || []" placeholder="Search recipient"/>
                 </BCol>
@@ -41,10 +48,12 @@ export default {
                 amount: null,
                 category_id: null,
                 employee_id: null,
+                trip_id: null,
                 editable: false
             }),
             category: null,
             recipient: null,
+            trips: [],
             showModal: false,
             editable: false
         }
@@ -66,10 +75,21 @@ export default {
             this.form.employee_id = newVal ? newVal.value : null;
         }
     },
+    mounted(){
+        this.fetchTrips();
+    },
     methods: {
-        show(){
+        fetchTrips(){
+            axios.get('/trips', { params: { options: 'lists', counts: 50 } })
+            .then(response => {
+                this.trips = response.data.data;
+            })
+            .catch(err => console.log(err));
+        },
+        show(trip){
             this.editable = false;
             this.form.editable = false;
+            this.form.trip_id = trip ? trip.id : null;
             this.showModal = true;
         },
         edit(data){
@@ -82,6 +102,9 @@ export default {
             if(data.employee){
                 this.recipient = { value: data.employee.id, name: data.employee.name };
                 this.form.employee_id = data.employee.id;
+            }
+            if(data.trip){
+                this.form.trip_id = data.trip.id;
             }
             this.editable = true;
             this.form.editable = true;

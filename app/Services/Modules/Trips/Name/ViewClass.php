@@ -7,7 +7,7 @@ use App\Http\Resources\DefaultResource;
 
 class ViewClass
 {
-    const TYPES = ['Boat', 'Carrier', 'Truck', 'Fish'];
+    const TYPES = ['Boat', 'Carrier', 'Truck'];
 
     public function list($request)
     {

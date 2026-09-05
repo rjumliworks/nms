@@ -19,6 +19,8 @@ return new class extends Migration
             $table->foreign('category_id')->references('id')->on('list_dropdowns');
             $table->unsignedInteger('employee_id')->nullable();
             $table->foreign('employee_id')->references('id')->on('employees');
+            $table->unsignedInteger('trip_id')->nullable();
+            $table->foreign('trip_id')->references('id')->on('trips')->onDelete('cascade');
             $table->boolean('is_paid')->default(0);
             $table->boolean('is_cancelled')->default(0);
             $table->timestamps();

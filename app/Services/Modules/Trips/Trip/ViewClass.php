@@ -19,4 +19,11 @@ class ViewClass
 
         return DefaultResource::collection($data);
     }
+
+    public function show($id)
+    {
+        $data = Trip::with('boat', 'carriers.carrier', 'carriers.tubs.fish')->findOrFail($id);
+
+        return new DefaultResource($data);
+    }
 }

@@ -16,6 +16,11 @@ class ListName extends Model
 
     public $timestamps = false;
 
+    public function setNameAttribute($value)
+    {
+        $this->attributes['name'] = $value ? ucwords(strtolower($value)) : $value;
+    }
+
     public function getActivitylogOptions(): LogOptions {
         return LogOptions::defaults()
         ->logOnly([

@@ -68,6 +68,13 @@
                     </Link>
                 </li>
                 <li class="nav-item">
+                    <Link href="/fish-species" class="nav-link menu-link"
+                    :class="{'active': $page.component.startsWith('Modules/Trips/FishSpecies') }">
+                    <i class="ri-water-flash-fill"></i>
+                    <span class="fw-semibold fs-14" data-key="t-dashboards">Fish Species</span>
+                    </Link>
+                </li>
+                <li class="nav-item">
                     <Link href="/users" class="nav-link menu-link"
                     :class="{'active': $page.component.startsWith('Executive/Users') }">
                     <i class="ri-team-fill"></i>

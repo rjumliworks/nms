@@ -24,7 +24,7 @@ class Tub extends Model
 
     public function fish()
     {
-        return $this->belongsTo(ListName::class, 'fish_id');
+        return $this->belongsTo(FishSpecies::class, 'fish_id');
     }
 
     public function saleLists()

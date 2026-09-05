@@ -21,7 +21,7 @@ class NameRequest extends FormRequest
                     ->where(fn ($query) => $query->where('type', $this->type))
                     ->ignore($this->id),
             ],
-            'type' => 'required|string|in:Boat,Carrier,Truck,Fish',
+            'type' => 'required|string|in:Boat,Carrier,Truck',
             'is_active' => 'sometimes|boolean',
         ];
     }

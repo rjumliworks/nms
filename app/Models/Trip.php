@@ -37,4 +37,9 @@ class Trip extends Model
     {
         return $this->hasMany(Sale::class, 'trip_id');
     }
+
+    public function loans()
+    {
+        return $this->hasMany(Loan::class, 'trip_id');
+    }
 }

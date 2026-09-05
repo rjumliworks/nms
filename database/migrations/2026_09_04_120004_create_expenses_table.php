@@ -18,7 +18,7 @@ return new class extends Migration
             $table->longText('note')->nullable();
             $table->unsignedTinyInteger('category_id');
             $table->foreign('category_id')->references('id')->on('list_dropdowns');
-            $table->unsignedInteger('employee_id');
+            $table->unsignedInteger('employee_id')->nullable();
             $table->foreign('employee_id')->references('id')->on('employees');
             $table->unsignedInteger('trip_id');
             $table->foreign('trip_id')->references('id')->on('trips')->onDelete('cascade');

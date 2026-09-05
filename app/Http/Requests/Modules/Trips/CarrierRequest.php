@@ -17,7 +17,7 @@ class CarrierRequest extends FormRequest
             'carrier_id' => 'required|integer|exists:list_names,id',
             'trip_id' => 'required|integer|exists:trips,id',
             'tubs' => 'required|array|min:1',
-            'tubs.*.fish_id' => 'nullable|integer|exists:list_names,id',
+            'tubs.*.fish_id' => 'nullable|integer|exists:fish_species,id',
             'tubs.*.quantity' => 'required|string',
             'tubs.*.amount' => 'required|numeric|min:0',
         ];

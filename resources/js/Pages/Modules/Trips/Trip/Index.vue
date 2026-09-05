@@ -63,9 +63,9 @@
                                                     <i class="ri-more-fill"></i>
                                                 </template>
                                                 <li>
-                                                    <a @click="openView(list)" class="dropdown-item d-flex align-items-center" role="button">
+                                                    <Link :href="`/trips/${list.id}`" class="dropdown-item d-flex align-items-center" role="button">
                                                         <i class="ri-eye-fill me-2"></i> View
-                                                    </a>
+                                                    </Link>
                                                 </li>
                                                 <li>
                                                     <a @click="openUpdate(list)" class="dropdown-item d-flex align-items-center" role="button">
@@ -90,21 +90,16 @@
         </div>
     </BRow>
     <Create :boats="boats" ref="create" @update="fetch"/>
-    <View ref="view" @add-carrier="openCarrier"/>
-    <Carrier :names="names" ref="carrier" @created="onCarrierCreated"/>
 </template>
 <script>
 import _ from 'lodash';
 import Create from './Modals/Create.vue';
-import View from './Modals/View.vue';
-import Carrier from './Modals/Carrier.vue';
 import PageHeader from '@/Shared/Components/PageHeader.vue';
 import Pagination from "@/Shared/Components/Pagination.vue";
 export default {
-    components: { PageHeader, Pagination, Create, View, Carrier },
+    components: { PageHeader, Pagination, Create },
     props: {
-        boats: { type: Array, default: () => [] },
-        names: { type: Object, default: () => ({}) }
+        boats: { type: Array, default: () => [] }
     },
     data(){
         return {
@@ -151,16 +146,6 @@ export default {
         },
         openUpdate(data){
             this.$refs.create.edit(data);
-        },
-        openView(data){
-            this.$refs.view.show(data);
-        },
-        openCarrier(trip){
-            this.$refs.carrier.show(trip);
-        },
-        onCarrierCreated(){
-            this.fetch();
-            this.$refs.view.hide();
         }
     }
 }

@@ -15,6 +15,17 @@ class TripCategoriesSeeder extends Seeder
         $categories = [
             ['name' => 'Hull Boat', 'classification' => 'Expense', 'type' => 'Category'],
             ['name' => 'Carrier', 'classification' => 'Expense', 'type' => 'Category'],
+            ['name' => 'Fuel & Gas', 'classification' => 'Expense', 'type' => 'Category'],
+            ['name' => 'Ice', 'classification' => 'Expense', 'type' => 'Category'],
+            ['name' => 'Water', 'classification' => 'Expense', 'type' => 'Category'],
+            ['name' => 'Labor', 'classification' => 'Expense', 'type' => 'Category'],
+            ['name' => 'Food & Provisions', 'classification' => 'Expense', 'type' => 'Category'],
+            ['name' => 'Supplies & Packing', 'classification' => 'Expense', 'type' => 'Category'],
+            ['name' => 'Transportation', 'classification' => 'Expense', 'type' => 'Category'],
+            ['name' => 'Repairs & Maintenance', 'classification' => 'Expense', 'type' => 'Category'],
+            ['name' => 'Government & Permits', 'classification' => 'Expense', 'type' => 'Category'],
+            ['name' => 'Salary', 'classification' => 'Expense', 'type' => 'Category'],
+            ['name' => 'Miscellaneous', 'classification' => 'Expense', 'type' => 'Category'],
             ['name' => 'Hull Boat', 'classification' => 'Loan', 'type' => 'Category'],
             ['name' => 'Service', 'classification' => 'Loan', 'type' => 'Category'],
         ];
