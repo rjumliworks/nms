@@ -69,6 +69,11 @@ export default {
             trip: this.trip_data.data
         }
     },
+    watch: {
+        trip_data(newVal){
+            this.trip = newVal.data;
+        }
+    },
     methods: {
         formatLongDate,
         back(){

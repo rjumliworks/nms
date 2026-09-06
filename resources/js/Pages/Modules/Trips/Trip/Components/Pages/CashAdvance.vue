@@ -24,17 +24,15 @@
                         <span v-else class="badge bg-warning">Unpaid</span>
                     </td>
                     <td class="text-end">
-                        <div class="d-flex gap-2 justify-content-end">
-                            <b-button v-if="!list.is_paid && !list.is_cancelled" size="sm" variant="soft-success" @click="openPayment(list)" type="button">
-                                Pay
-                            </b-button>
-                            <a v-if="list.paid_amount > 0" @click="openPayment(list)" class="text-secondary" role="button" title="View payment history">
-                                <i class="ri-history-line"></i>
-                            </a>
-                            <a @click="openUpdate(list)" class="text-primary" role="button" title="Edit">
-                                <i class="ri-edit-2-fill"></i>
-                            </a>
-                        </div>
+                        <b-button v-if="!list.is_paid && !list.is_cancelled" @click="openPayment(list)" variant="success" class="me-1" v-b-tooltip.hover title="Pay" size="sm">
+                            <i class="ri-hand-coin-fill align-bottom"></i>
+                        </b-button>
+                        <b-button v-if="list.paid_amount > 0" @click="openPayment(list)" variant="secondary" class="me-1" v-b-tooltip.hover title="View payment history" size="sm">
+                            <i class="ri-history-line align-bottom"></i>
+                        </b-button>
+                        <b-button @click="openUpdate(list)" variant="primary" class="me-1" v-b-tooltip.hover title="Edit" size="sm">
+                            <i class="ri-edit-2-fill align-bottom"></i>
+                        </b-button>
                     </td>
                 </tr>
                 <tr v-if="!trip.loans || !trip.loans.length">

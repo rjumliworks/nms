@@ -21,9 +21,9 @@
                         <span v-else class="badge bg-success">Paid</span>
                     </td>
                     <td class="text-end">
-                        <a @click="openUpdate(list)" class="text-primary" role="button" title="Edit">
-                            <i class="ri-edit-2-fill"></i>
-                        </a>
+                        <b-button @click="openUpdate(list)" variant="primary" class="me-1" v-b-tooltip.hover title="Edit" size="sm">
+                            <i class="ri-edit-2-fill align-bottom"></i>
+                        </b-button>
                     </td>
                 </tr>
                 <tr v-if="!trip.sales || !trip.sales.length">
