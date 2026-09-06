@@ -6,11 +6,11 @@
                     <InputLabel for="boat" value="Boat" :message="form.errors.boat_id"/>
                     <Multiselect :options="boatOptions" label="name" v-model="boat" object :searchable="true" placeholder="Select Boat" ref="boatSelect"/>
                 </BCol>
-                <BCol lg="12">
+                <BCol lg="12" class="mt-1"> 
                     <InputLabel for="date" value="Date" :message="form.errors.date"/>
                     <TextInput id="date" v-model="form.date" type="date" class="form-control" @input="handleInput('date')" :light="true"/>
                 </BCol>
-                <BCol lg="12">
+                <BCol lg="12" class="mt-1">
                     <InputLabel for="note" value="Note"/>
                     <Textarea id="note" v-model="form.note" @input="handleInput('note')" :light="true"/>
                 </BCol>

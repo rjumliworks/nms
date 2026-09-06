@@ -10,7 +10,7 @@
                     <InputLabel for="trip" value="Trip"/>
                     <select id="trip" v-model="form.trip_id" class="form-select" @change="handleInput('trip_id')">
                         <option :value="null">Select Trip</option>
-                        <option v-for="trip in trips" v-bind:key="trip.id" :value="trip.id">{{ trip.code }} - {{ trip.date }}</option>
+                        <option v-for="trip in trips" v-bind:key="trip.id" :value="trip.id">{{ trip.code }} - {{ formatLongDate(trip.date) }}</option>
                     </select>
                 </BCol>
                 <BCol lg="12" class="mt-1">
@@ -40,6 +40,7 @@ import InputLabel from '@/Shared/Components/Forms/InputLabel.vue';
 import Textarea from '@/Shared/Components/Forms/Textarea.vue';
 import Amount from '@/Shared/Components/Forms/Amount.vue';
 import NameSearch from '../../Shared/NameSearch.vue';
+import { formatLongDate } from '@/Shared/Utils/dateFormat.js';
 export default {
     components: { InputLabel, Textarea, Amount, Multiselect, NameSearch },
     props: {
@@ -85,6 +86,7 @@ export default {
         this.fetchTrips();
     },
     methods: {
+        formatLongDate,
         fetchTrips(){
             axios.get('/trips', { params: { options: 'lists', counts: 50 } })
             .then(response => {

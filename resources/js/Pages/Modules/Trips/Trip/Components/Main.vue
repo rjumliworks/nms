@@ -11,8 +11,36 @@
                 </div>
                 <div class="flex-grow-1">
                     <h5 class="mb-0 fs-14"><span class="text-body">Trip Transactions</span></h5>
-                    <p class="text-muted text-truncate-two-lines fs-12">Expenses, cash advances, and sales recorded for this trip</p>
+                    <p class="text-muted text-truncate-two-lines fs-12">Expenses, cash advances, sales, and carriers recorded for this trip</p>
                 </div>
+                <template v-if="type == 'Carriers'">
+                    <div class="flex-shrink-0">
+                        <BButton @click="addCarrier()" variant="danger" class="btn-sm waves-effect waves-light mt-1">
+                            Add Carrier
+                        </BButton>
+                    </div>
+                </template>
+                <template v-if="type == 'Sales'">
+                    <div class="flex-shrink-0">
+                        <BButton @click="addSale()" variant="danger" class="btn-sm waves-effect waves-light mt-1">
+                            Add Sale
+                        </BButton>
+                    </div>
+                </template>
+                <template v-if="type == 'Expenses'">
+                    <div class="flex-shrink-0">
+                        <BButton @click="addExpense()" variant="danger" class="btn-sm waves-effect waves-light mt-1">
+                            Add Expense
+                        </BButton>
+                    </div>
+                </template>
+                <template v-if="type == 'Cash-Advance'">
+                    <div class="flex-shrink-0">
+                        <BButton @click="addCashAdvance()" variant="danger" class="btn-sm waves-effect waves-light mt-1">
+                            Add Cash Advance
+                        </BButton>
+                    </div>
+                </template>
             </div>
         </div>
 
@@ -22,7 +50,7 @@
                     <li class="nav-item" role="presentation" v-for="(menu, index) in menus" v-bind:key="index">
                         <button class="nav-link fs-12 p-3" :class="(index == 0) ? 'active' : ''"
                             :id="menu+'-tab'" data-bs-toggle="pill" :data-bs-target="'#'+menu"
-                            type="button" role="tab" :aria-controls="menu" aria-selected="true">
+                            type="button" role="tab" :aria-controls="menu" aria-selected="true" @click="type = menu">
                             {{ menu.replace('-',' ') }}
                         </button>
                     </li>
@@ -36,9 +64,10 @@
                         <div class="carousel-content">
                             <transition mode="out-in">
                                 <div :key="index" class="tab-content">
-                                    <Expenses :trip="trip" :categories="categories.Expense" :names="names" v-if="menu == 'Expenses'" />
-                                    <CashAdvance :trip="trip" :categories="categories.Loan" :names="names" v-if="menu == 'Cash-Advance'" />
-                                    <Sales :trip="trip" :names="names" v-if="menu == 'Sales'" />
+                                    <Expenses ref="expensesTab" :trip="trip" :categories="categories.Expense" :names="names" v-if="menu == 'Expenses'" @update="$emit('refresh')"/>
+                                    <CashAdvance ref="cashAdvanceTab" :trip="trip" :categories="categories.Loan" :names="names" v-if="menu == 'Cash-Advance'" @update="$emit('refresh')"/>
+                                    <Sales ref="salesTab" :trip="trip" :names="names" v-if="menu == 'Sales'" @update="$emit('refresh')"/>
+                                    <Carriers :trip="trip" v-if="menu == 'Carriers'"/>
                                 </div>
                             </transition>
                         </div>
@@ -52,12 +81,29 @@
 import Expenses from './Pages/Expenses.vue';
 import CashAdvance from './Pages/CashAdvance.vue';
 import Sales from './Pages/Sales.vue';
+import Carriers from './Pages/Carriers.vue';
 export default {
-    components: { Expenses, CashAdvance, Sales },
+    components: { Expenses, CashAdvance, Sales, Carriers },
     props: ['trip','names','categories'],
+    emits: ['refresh','add-carrier'],
     data(){
         return {
-            menus: ['Expenses','Cash-Advance','Sales']
+            menus: ['Carriers','Sales','Expenses','Cash-Advance'],
+            type: 'Carriers'
+        }
+    },
+    methods: {
+        addCarrier(){
+            this.$emit('add-carrier');
+        },
+        addSale(){
+            this.$refs.salesTab[0].openCreate();
+        },
+        addExpense(){
+            this.$refs.expensesTab[0].openCreate();
+        },
+        addCashAdvance(){
+            this.$refs.cashAdvanceTab[0].openCreate();
         }
     }
 }

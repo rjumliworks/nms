@@ -11,44 +11,82 @@
                 </div>
                 <div class="flex-grow-1">
                     <h5 class="mb-0 fs-14"><span class="text-body">Trip Details</span></h5>
-                    <p class="text-muted text-truncate-two-lines fs-12">Carriers and catch handling for this trip</p>
+                    <p class="text-muted text-truncate-two-lines fs-12">Financial summary for this trip</p>
                 </div>
             </div>
         </div>
-        <div class="card-body bg-white rounded-bottom border-bottom" v-if="trip.note">
-            <p class="mb-0 text-primary fs-12 fw-semibold">Note</p>
-            <p class="mb-0 fs-12">{{ trip.note }}</p>
-        </div>
-        <div class="card bg-white rounded-bottom shadow-none mb-0" style="height: calc(100vh - 398px); overflow: auto;">
-            <div class="d-flex align-items-center justify-content-between p-3 pb-0">
-                <p class="mb-0 text-primary fs-12 fw-semibold">Carriers</p>
-                <b-button size="sm" variant="soft-primary" @click="$emit('add-carrier')" type="button">
-                    <i class="ri-add-line align-bottom me-1"></i> New
-                </b-button>
-            </div>
-            <ul class="mt-2 mb-1 p-3 pt-0">
-                <li class="list-group-item px-0 border-0" v-for="(carrier,index) in trip.carriers" v-bind:key="index">
-                    <div class="d-flex">
-                        <div class="flex-shrink-0 avatar-xs">
-                            <span class="avatar-title bg-light p-1 rounded-circle">
-                                <i class="ri-truck-fill fs-14 text-secondary"></i>
-                            </span>
-                        </div>
-                        <div class="flex-grow-1 ms-3">
-                            <h6 class="mb-0 fs-11">{{ carrier.carrier ? carrier.carrier.name : '-' }}</h6>
-                            <p class="fs-10 mb-0 text-muted">{{ carrier.tubs ? carrier.tubs.length : 0 }} tub(s) &middot; Total {{ carrier.total }}</p>
-                        </div>
-                    </div>
-                </li>
-                <li class="px-0 text-center text-muted fs-12" v-if="!trip.carriers || !trip.carriers.length">
-                    No carriers yet
-                </li>
-            </ul>
+        <div class="card-body bg-white rounded-bottom">
+            <BRow class="g-2">
+                <b-col lg="12">
+                    <b-card no-body class="bg-success-subtle border shadow-none" style="height: 70px;">
+                        <b-card-body class="d-flex align-items-center h-100">
+                            <div class="avatar-sm flex-shrink-0">
+                                <span class="avatar-title bg-light text-success rounded-circle fs-4">
+                                    <i class="ri-shopping-bag-fill"></i>
+                                </span>
+                            </div>
+                            <div class="flex-grow-1 ms-3">
+                                <p class="text-uppercase fw-semibold fs-11 text-muted mb-0">Total Sales</p>
+                                <h2 class="fs-14 mb-0 text-success">{{ formatCurrency(totalSales) }}</h2>
+                                <p class="fs-11 text-muted mb-0">Catch sold to buyers</p>
+                            </div>
+                        </b-card-body>
+                    </b-card>
+                </b-col>
+                <b-col lg="12" class="mt-n3">
+                    <b-card no-body class="bg-warning-subtle border shadow-none" style="height: 70px;">
+                        <b-card-body class="d-flex align-items-center h-100">
+                            <div class="avatar-sm flex-shrink-0">
+                                <span class="avatar-title bg-light text-warning rounded-circle fs-4">
+                                    <i class="ri-hand-coin-fill"></i>
+                                </span>
+                            </div>
+                            <div class="flex-grow-1 ms-3">
+                                <p class="text-uppercase fw-semibold fs-11 text-muted mb-0">Cash Advances</p>
+                                <h2 class="fs-14 mb-0 text-warning">{{ formatCurrency(totalCashAdvance) }}</h2>
+                                <p class="fs-11 text-muted mb-0">Advanced to crew for this trip</p>
+                            </div>
+                        </b-card-body>
+                    </b-card>
+                </b-col>
+                <b-col lg="12" class="mt-n3">
+                    <b-card no-body class="bg-danger-subtle border shadow-none" style="height: 70px;">
+                        <b-card-body class="d-flex align-items-center h-100">
+                            <div class="avatar-sm flex-shrink-0">
+                                <span class="avatar-title bg-light text-danger rounded-circle fs-4">
+                                    <i class="ri-file-list-3-fill"></i>
+                                </span>
+                            </div>
+                            <div class="flex-grow-1 ms-3">
+                                <p class="text-uppercase fw-semibold fs-11 text-muted mb-0">Total Expenses</p>
+                                <h2 class="fs-14 mb-0 text-danger">{{ formatCurrency(totalExpenses) }}</h2>
+                                <p class="fs-11 text-muted mb-0">All recorded expenses</p>
+                            </div>
+                        </b-card-body>
+                    </b-card>
+                </b-col>
+            </BRow>
         </div>
     </div>
 </template>
 <script>
 export default {
-    props: ['trip']
+    props: ['trip'],
+    computed: {
+        totalSales(){
+            return (this.trip.sales || []).reduce((sum, item) => sum + Number(item.total || 0), 0);
+        },
+        totalExpenses(){
+            return (this.trip.expenses || []).reduce((sum, item) => sum + Number(item.amount || 0), 0);
+        },
+        totalCashAdvance(){
+            return (this.trip.loans || []).reduce((sum, item) => sum + Number(item.amount || 0), 0);
+        }
+    },
+    methods: {
+        formatCurrency(value){
+            return '₱' + Number(value ?? 0).toLocaleString('en-PH', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        }
+    }
 }
 </script>

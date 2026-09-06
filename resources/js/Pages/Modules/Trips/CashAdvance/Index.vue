@@ -105,7 +105,7 @@
                                     <input type="text" v-model="filter.trip_keyword" placeholder="Search trip code" class="form-control" @focus="showTripSuggestions = true" @blur="hideTripSuggestions">
                                     <ul class="list-group position-absolute w-100 shadow-sm fs-12" style="z-index: 1055; max-height: 220px; overflow-y: auto;" v-if="showTripSuggestions && tripSuggestions.length">
                                         <li class="list-group-item list-group-item-action" style="cursor: pointer;" v-for="trip in tripSuggestions" v-bind:key="trip.id" @mousedown.prevent="selectTrip(trip)">
-                                            {{ trip.code }} - {{ trip.date }}
+                                            {{ trip.code }} - {{ formatLongDate(trip.date) }}
                                         </li>
                                     </ul>
                                 </div>
@@ -125,7 +125,7 @@
                 </div>
                 <template v-else>
                     <div class="card-body bg-white rounded-bottom">
-                        <div class="table-responsive table-card" style="height: calc(100vh - 545px); overflow: auto;">
+                        <div class="table-responsive table-card" style="height: calc(100vh - 510px); overflow: auto;">
                             <table class="table align-middle table-striped table-centered mb-0">
                                 <thead class="table-light thead-fixed">
                                     <tr class="fs-11">
@@ -158,6 +158,9 @@
                                                 <b-button v-if="!list.is_paid && !list.is_cancelled" size="sm" variant="soft-success" @click="openPayment(list)" type="button">
                                                     Pay
                                                 </b-button>
+                                                <a v-if="list.paid_amount > 0" @click="openPayment(list)" class="btn btn-ghost-secondary btn-icon btn-sm" role="button" title="View payment history">
+                                                    <i class="ri-history-line"></i>
+                                                </a>
                                                 <a @click="openUpdate(list)" class="btn btn-ghost-primary btn-icon btn-sm" role="button">
                                                     <i class="ri-edit-2-fill"></i>
                                                 </a>
@@ -188,6 +191,7 @@ import Payment from './Modals/Payment.vue';
 import Multiselect from "@vueform/multiselect";
 import PageHeader from '@/Shared/Components/PageHeader.vue';
 import Pagination from "@/Shared/Components/Pagination.vue";
+import { formatLongDate } from '@/Shared/Utils/dateFormat.js';
 export default {
     components: { PageHeader, Pagination, Multiselect, Create, Payment },
     props: {
@@ -398,7 +402,8 @@ export default {
         },
         formatCurrency(value){
             return '₱' + Number(value ?? 0).toLocaleString('en-PH', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-        }
+        },
+        formatLongDate
     }
 }
 </script>

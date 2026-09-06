@@ -1,5 +1,5 @@
 <template>
-    <b-modal v-model="showModal" header-class="p-3 bg-light" title="Record Payment" class="v-modal-custom" modal-class="zoomIn" centered no-close-on-backdrop>
+    <b-modal v-model="showModal" header-class="p-3 bg-light" :title="canPay ? 'Record Payment' : 'Payment History'" class="v-modal-custom" modal-class="zoomIn" centered no-close-on-backdrop>
         <div v-if="loan">
             <div class="d-flex justify-content-between align-items-center mb-3 p-2 bg-light-subtle rounded border">
                 <div>
@@ -7,11 +7,11 @@
                     <h6 class="mb-0">{{ loan.employee ? loan.employee.name : '-' }}</h6>
                 </div>
                 <div class="text-end">
-                    <p class="text-uppercase fw-semibold fs-11 text-muted mb-0">Remaining Balance</p>
-                    <h6 class="mb-0 text-danger">{{ formatCurrency(loan.balance) }}</h6>
+                    <p class="text-uppercase fw-semibold fs-11 text-muted mb-0">{{ canPay ? 'Remaining Balance' : 'Total Amount' }}</p>
+                    <h6 class="mb-0" :class="canPay ? 'text-danger' : 'text-success'">{{ formatCurrency(canPay ? loan.balance : loan.amount) }}</h6>
                 </div>
             </div>
-            <form class="customform">
+            <form class="customform" v-if="canPay">
                 <BRow class="g-3">
                     <BCol lg="12">
                         <InputLabel for="amount" value="Payment Amount" :message="form.errors.amount"/>
@@ -46,8 +46,8 @@
             </div>
         </div>
         <template v-slot:footer>
-            <b-button @click="hide()" variant="light" block>Cancel</b-button>
-            <b-button @click="submit()" variant="primary" :disabled="form.processing || !loan || loan.balance <= 0" block>Record Payment</b-button>
+            <b-button @click="hide()" variant="light" block>{{ canPay ? 'Cancel' : 'Close' }}</b-button>
+            <b-button v-if="canPay" @click="submit()" variant="primary" :disabled="form.processing" block>Record Payment</b-button>
         </template>
     </b-modal>
 </template>
@@ -70,14 +70,21 @@ export default {
             showModal: false
         }
     },
+    computed: {
+        canPay(){
+            return !!this.loan && !this.loan.is_paid && !this.loan.is_cancelled;
+        }
+    },
     methods: {
         show(loan){
             this.loan = loan;
             this.form.id = loan.id;
             this.showModal = true;
-            this.$nextTick(() => {
-                this.$refs.amountInput.emitValue(loan.balance);
-            });
+            if(this.canPay){
+                this.$nextTick(() => {
+                    this.$refs.amountInput.emitValue(loan.balance);
+                });
+            }
         },
         setAmount(val){
             this.form.amount = val;

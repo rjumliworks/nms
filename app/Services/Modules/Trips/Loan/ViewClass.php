@@ -3,6 +3,7 @@
 namespace App\Services\Modules\Trips\Loan;
 
 use App\Models\Loan;
+use App\Models\LoanPayment;
 use App\Http\Resources\DefaultResource;
 
 class ViewClass
@@ -44,23 +45,35 @@ class ViewClass
     {
         $month = $request?->month;
 
-        $scopeToMonth = function ($query) use ($month) {
-            $query->when($month, function ($query, $month) {
-                $query->whereMonth('created_at', $month);
-            }, function ($query) {
-                $query->whereMonth('created_at', now()->month)
-                    ->whereYear('created_at', now()->year);
+        $scopeToMonth = function ($query, $column) use ($month) {
+            $query->when($month, function ($query, $month) use ($column) {
+                $query->whereMonth($column, $month);
+            }, function ($query) use ($column) {
+                $query->whereMonth($column, now()->month)
+                    ->whereYear($column, now()->year);
             });
         };
 
+        // "Paid" reflects money actually collected this month, including partial payments,
+        // regardless of when the underlying cash advance was created.
+        $paid = (float) LoanPayment::whereHas('loan', function ($query) {
+                $query->where('is_cancelled', 0);
+            })
+            ->tap(fn ($query) => $scopeToMonth($query, 'created_at'))
+            ->sum('amount');
+
+        // "Not Paid" is the outstanding balance (as of now) of cash advances handed out this month.
+        $notPaid = (float) Loan::with('payments')
+            ->where('is_cancelled', 0)
+            ->where('is_paid', 0)
+            ->tap(fn ($query) => $scopeToMonth($query, 'created_at'))
+            ->get()
+            ->sum('balance');
+
         return [
             'total' => (float) Loan::where('is_cancelled', 0)->sum('amount'),
-            'paid' => (float) Loan::where('is_cancelled', 0)->where('is_paid', 1)
-                ->tap($scopeToMonth)
-                ->sum('amount'),
-            'notPaid' => (float) Loan::where('is_cancelled', 0)->where('is_paid', 0)
-                ->tap($scopeToMonth)
-                ->sum('amount'),
+            'paid' => $paid,
+            'notPaid' => $notPaid,
         ];
     }
 

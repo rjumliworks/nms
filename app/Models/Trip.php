@@ -18,6 +18,17 @@ class Trip extends Model
         'boat_id',
     ];
 
+    protected $appends = ['status'];
+
+    public function getStatusAttribute()
+    {
+        if ($this->is_completed) {
+            return 'Completed';
+        }
+
+        return $this->has_departed ? 'Ongoing' : 'Preparing';
+    }
+
     public function boat()
     {
         return $this->belongsTo(ListName::class, 'boat_id');

@@ -120,6 +120,7 @@ import InputLabel from '@/Shared/Components/Forms/InputLabel.vue';
 import TextInput from '@/Shared/Components/Forms/TextInput.vue';
 import Amount from '@/Shared/Components/Forms/Amount.vue';
 import NameSearch from '../../Shared/NameSearch.vue';
+import { formatLongDate } from '@/Shared/Utils/dateFormat.js';
 export default {
     components: { InputLabel, TextInput, Amount, NameSearch, Multiselect },
     props: {
@@ -147,7 +148,7 @@ export default {
             return this.rows.reduce((sum, row) => sum + (Number(row.amount) || 0), 0);
         },
         tripOptions(){
-            return this.trips.map(t => ({ value: t.id, name: `${t.code} - ${t.date}` }));
+            return this.trips.map(t => ({ value: t.id, name: `${t.code} - ${formatLongDate(t.date)}` }));
         },
         selectedTrip(){
             return this.trips.find(t => t.id === this.form.trip_id) || null;
@@ -255,7 +256,7 @@ export default {
                 if(!this.trips.find(t => t.id === trip.id)){
                     this.trips.push(trip);
                 }
-                this.trip = { value: trip.id, name: `${trip.code} - ${trip.date}` };
+                this.trip = { value: trip.id, name: `${trip.code} - ${formatLongDate(trip.date)}` };
             }
         },
         submit(){

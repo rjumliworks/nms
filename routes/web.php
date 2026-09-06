@@ -19,6 +19,7 @@ Route::middleware(['role:Administrator'])->group(function () {
     Route::resource('/buyers', App\Http\Controllers\Modules\Trips\BuyerController::class)->only(['index','store','update']);
     Route::resource('/employees', App\Http\Controllers\Modules\Trips\EmployeeController::class)->only(['index','store','update']);
     Route::resource('/fish-species', App\Http\Controllers\Modules\Trips\FishSpeciesController::class)->only(['index','store','update']);
+    Route::get('/trips/print', [App\Http\Controllers\Modules\Trips\TripController::class, 'print']);
     Route::resource('/trips', App\Http\Controllers\Modules\Trips\TripController::class);
     Route::resource('/carriers', App\Http\Controllers\Modules\Trips\CarrierController::class)->only(['store']);
     Route::get('/expenses/print', [App\Http\Controllers\Modules\Trips\ExpenseController::class, 'print']);

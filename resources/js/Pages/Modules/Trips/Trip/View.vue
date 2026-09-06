@@ -21,7 +21,7 @@
                                                     <div class="hstack gap-3 flex-wrap">
                                                         <div><span class="text-muted">Boat :</span> <span class="fw-medium">{{ trip.boat ? trip.boat.name : '-' }}</span></div>
                                                         <div class="vr" style="width: 1px;"></div>
-                                                        <div><span class="text-muted">Date :</span> <span class="fw-medium">{{ trip.date }}</span></div>
+                                                        <div><span class="text-muted">Date :</span> <span class="fw-medium">{{ formatLongDate(trip.date) }}</span></div>
                                                         <div class="vr" style="width: 1px;"></div>
                                                         <div>
                                                             <span v-if="trip.is_completed" class="badge bg-success">Completed</span>
@@ -46,10 +46,10 @@
                     </BCard>
                 </BCol>
                 <BCol lg="3">
-                    <Sidebar :trip="trip" @add-carrier="openCarrier"/>
+                    <Sidebar :trip="trip"/>
                 </BCol>
                 <BCol lg="9">
-                    <Main :trip="trip" :names="names" :categories="categories"/>
+                    <Main :trip="trip" :names="names" :categories="categories" @refresh="refresh" @add-carrier="openCarrier"/>
                 </BCol>
             </BRow>
         </div>
@@ -60,6 +60,7 @@
 import Main from './Components/Main.vue';
 import Sidebar from './Components/Sidebar.vue';
 import Carrier from './Modals/Carrier.vue';
+import { formatLongDate } from '@/Shared/Utils/dateFormat.js';
 export default {
     components: { Main, Sidebar, Carrier },
     props: ['trip_data','names','categories'],
@@ -69,6 +70,7 @@ export default {
         }
     },
     methods: {
+        formatLongDate,
         back(){
             this.$inertia.visit('/trips');
         },

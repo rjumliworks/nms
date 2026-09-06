@@ -20,7 +20,7 @@
     <meta name="twitter:title" content="NMS - Fishing Management System">
     <meta name="twitter:description" content="Management system for NMS fishing operations and business transactions.">
     <meta name="twitter:image" content="{{ URL::asset('images/logo.png') }}"> <!-- Favicon -->
-    <link rel="shortcut icon" href="{{ URL::asset('images/favicon.ico') }}"> <!-- PDF.js -->
+    <link rel="shortcut icon" href="{{ URL::asset('images/sei.ico') }}"> <!-- PDF.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/1.8.349/pdf.min.js"></script> <!-- Confetti -->
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     @vite(['resources/js/app.js']) @inertiaHead

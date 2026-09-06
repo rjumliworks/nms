@@ -6,32 +6,52 @@
                     <InputLabel for="carrier" value="Carrier" :message="form.errors.carrier_id"/>
                     <NameSearch v-model="carrier" type="Carrier" :options="names.Carrier || []" placeholder="Search carrier/truck"/>
                 </BCol>
-                <BCol lg="12"><hr class="text-muted mt-1 mb-1"/></BCol>
-                <BCol lg="12">
-                    <div class="d-flex align-items-center justify-content-between mb-2">
-                        <h6 class="mb-0">Tubs</h6>
-                        <b-button size="sm" variant="soft-primary" @click="addRow()" type="button">
-                            <i class="ri-add-line align-bottom me-1"></i> Add Tub
-                        </b-button>
+            </BRow>
+            <BRow>
+                <div class="col-md-12 mt-3 mb-n3">
+                    <div class="card bg-light-subtle shadow-none border">
+                        <div class="card-header bg-light-subtle">
+                            <div class="d-flex mb-n3">
+                                <div class="flex-shrink-0 me-3">
+                                    <div style="height:2rem;width:2rem;">
+                                        <span class="avatar-title bg-primary-subtle rounded p-2 mt-n1">
+                                            <i class="ri-archive-fill text-primary fs-18"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="flex-grow-1">
+                                    <h5 class="mb-0 mt-n1 fs-12"><span class="text-body">Tub Allocation</span></h5>
+                                    <p class="text-muted text-truncate-two-lines fs-11">Catch loaded onto this carrier</p>
+                                </div>
+                                <div class="flex-shrink-0">
+                                    <b-button size="sm" variant="soft-primary" @click="addRow()" type="button">
+                                        <i class="ri-add-line align-bottom me-1"></i> Add Tub
+                                    </b-button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body bg-white rounded-bottom">
+                            <div v-for="(row,index) in form.tubs" v-bind:key="index" class="d-flex gap-2 align-items-start mb-2">
+                                <div style="width: 45%;">
+                                    <NameSearch v-model="row.fish" type="Fish" :options="names.Fish || []" placeholder="Select fish"/>
+                                </div>
+                                <div style="width: 250px;">
+                                    <TextInput v-model="row.quantity" type="number" class="form-control" placeholder="Quantity" :light="true"/>
+                                </div>
+                                <div style="width: 400px;">
+                                    <Amount @amount="row.amount = $event" :readonly="false"/>
+                                </div>
+                                <div class="flex-shrink-0">
+                                    <b-button variant="soft-danger" @click="removeRow(index)" type="button" :disabled="form.tubs.length === 1">
+                                        <i class="ri-delete-bin-line"></i>
+                                    </b-button>
+                                </div>
+                            </div>
+                            <p class="text-muted fs-12 mb-0" v-if="!form.tubs.length">No tubs added yet. Click "Add Tub" to add one.</p>
+                            <div class="text-danger fs-12" v-if="form.errors.tubs">{{ form.errors.tubs }}</div>
+                        </div>
                     </div>
-                    <div v-for="(row,index) in form.tubs" v-bind:key="index" class="d-flex gap-2 align-items-start mb-2">
-                        <div style="width: 45%;">
-                            <NameSearch v-model="row.fish" type="Fish" :options="names.Fish || []" placeholder="Select fish"/>
-                        </div>
-                        <div style="width: 22%;">
-                            <TextInput v-model="row.quantity" type="number" class="form-control" placeholder="Quantity" :light="true"/>
-                        </div>
-                        <div style="width: 22%;">
-                            <TextInput v-model="row.amount" type="number" class="form-control" placeholder="Amount" :light="true"/>
-                        </div>
-                        <div class="flex-shrink-0 pt-1">
-                            <b-button size="sm" variant="soft-danger" @click="removeRow(index)" type="button" :disabled="form.tubs.length === 1">
-                                <i class="ri-delete-bin-line"></i>
-                            </b-button>
-                        </div>
-                    </div>
-                    <div class="text-danger fs-12" v-if="form.errors.tubs">{{ form.errors.tubs }}</div>
-                </BCol>
+                </div>
             </BRow>
         </form>
         <template v-slot:footer>
@@ -44,10 +64,11 @@
 import { useForm } from '@inertiajs/vue3';
 import InputLabel from '@/Shared/Components/Forms/InputLabel.vue';
 import TextInput from '@/Shared/Components/Forms/TextInput.vue';
+import Amount from '@/Shared/Components/Forms/Amount.vue';
 import NameSearch from '../../Shared/NameSearch.vue';
 export default {
     // Creates a Carrier plus its Tub batch in one call, from within the Trip view.
-    components: { InputLabel, TextInput, NameSearch },
+    components: { InputLabel, TextInput, Amount, NameSearch },
     props: {
         names: { type: Object, default: () => ({}) }
     },

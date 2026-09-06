@@ -117,7 +117,7 @@
                                     <input type="text" v-model="filter.trip_keyword" placeholder="Search trip code" class="form-control" @focus="showTripSuggestions = true" @blur="hideTripSuggestions">
                                     <ul class="list-group position-absolute w-100 shadow-sm fs-12" style="z-index: 1055; max-height: 220px; overflow-y: auto;" v-if="showTripSuggestions && tripSuggestions.length">
                                         <li class="list-group-item list-group-item-action" style="cursor: pointer;" v-for="trip in tripSuggestions" v-bind:key="trip.id" @mousedown.prevent="selectTrip(trip)">
-                                            {{ trip.code }} - {{ trip.date }}
+                                            {{ trip.code }} - {{ formatLongDate(trip.date) }}
                                         </li>
                                     </ul>
                                 </div>
@@ -190,6 +190,7 @@ import Assign from './Modals/Assign.vue';
 import Multiselect from "@vueform/multiselect";
 import PageHeader from '@/Shared/Components/PageHeader.vue';
 import Pagination from "@/Shared/Components/Pagination.vue";
+import { formatLongDate } from '@/Shared/Utils/dateFormat.js';
 export default {
     components: { PageHeader, Pagination, Create, Assign, Multiselect },
     props: {
@@ -286,6 +287,7 @@ export default {
         }
     },
     methods: {
+        formatLongDate,
         checkSearchStr: _.debounce(function(){
             this.fetch();
         }, 300),

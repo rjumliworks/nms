@@ -6,18 +6,18 @@
                     <InputLabel for="category" value="Category" :message="form.errors.category_id"/>
                     <Multiselect :options="categoryOptions" label="name" v-model="category" object :searchable="true" placeholder="Select Category"/>
                 </BCol>
-                <BCol lg="12">
+                <BCol lg="12" class="mt-1">
                     <InputLabel for="trip" value="Trip (optional)"/>
                     <select id="trip" v-model="form.trip_id" class="form-select" @change="handleInput('trip_id')">
                         <option :value="null">Not trip-specific</option>
-                        <option v-for="trip in trips" v-bind:key="trip.id" :value="trip.id">{{ trip.code }} - {{ trip.date }}</option>
+                        <option v-for="trip in trips" v-bind:key="trip.id" :value="trip.id">{{ trip.code }} - {{ formatLongDate(trip.date) }}</option>
                     </select>
                 </BCol>
-                <BCol lg="12">
+                <BCol lg="12" class="mt-1">
                     <InputLabel for="recipient" value="Recipient" :message="form.errors.employee_id"/>
                     <NameSearch v-model="recipient" type="Employee" :options="names.Employee || []" placeholder="Search recipient"/>
                 </BCol>
-                <BCol lg="12">
+                <BCol lg="12" class="mt-1">
                     <InputLabel for="amount" value="Amount" :message="form.errors.amount"/>
                     <TextInput id="amount" v-model="form.amount" type="number" class="form-control" placeholder="Please enter amount" @input="handleInput('amount')" :light="true"/>
                 </BCol>
@@ -35,6 +35,7 @@ import Multiselect from "@vueform/multiselect";
 import InputLabel from '@/Shared/Components/Forms/InputLabel.vue';
 import TextInput from '@/Shared/Components/Forms/TextInput.vue';
 import NameSearch from '../../Shared/NameSearch.vue';
+import { formatLongDate } from '@/Shared/Utils/dateFormat.js';
 export default {
     components: { InputLabel, TextInput, Multiselect, NameSearch },
     props: {
@@ -79,6 +80,7 @@ export default {
         this.fetchTrips();
     },
     methods: {
+        formatLongDate,
         fetchTrips(){
             axios.get('/trips', { params: { options: 'lists', counts: 50 } })
             .then(response => {
